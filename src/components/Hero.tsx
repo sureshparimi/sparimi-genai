@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, Github, Linkedin, Mail, Phone, MapPin, Sparkles } from 'lucide-react';
 
@@ -87,18 +86,30 @@ const Hero = () => {
               <Sparkles className="w-5 h-5 text-purple-400" />
             </div>
             <div className="grid md:grid-cols-3 gap-4 text-left">
-              <div className="bg-white/10 rounded-lg p-4">
-                <h4 className="font-semibold text-blue-400 mb-2">🎭 Playwright Mastery</h4>
-                <p className="text-sm text-gray-300">Building next-gen test automation frameworks with advanced Playwright patterns and AI-enhanced test generation</p>
-              </div>
-              <div className="bg-white/10 rounded-lg p-4">
-                <h4 className="font-semibold text-emerald-400 mb-2">🤖 AI-Powered Testing</h4>
-                <p className="text-sm text-gray-300">Implementing intelligent test case generation, self-healing tests, and AI-driven quality insights</p>
-              </div>
-              <div className="bg-white/10 rounded-lg p-4">
-                <h4 className="font-semibold text-purple-400 mb-2">🧠 GenAI Integration</h4>
-                <p className="text-sm text-gray-300">Leveraging LLMs and GenAI for automated test documentation, bug analysis, and QA process optimization</p>
-              </div>
+              <a 
+                href="/playwright-blog" 
+                className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer group"
+              >
+                <h4 className="font-semibold text-blue-400 mb-2 group-hover:text-blue-300">🎭 Playwright Mastery</h4>
+                <p className="text-sm text-gray-300 group-hover:text-gray-200">Building next-gen test automation frameworks with advanced Playwright patterns and AI-enhanced test generation</p>
+                <div className="mt-2 text-xs text-blue-400 group-hover:text-blue-300">Read my blog →</div>
+              </a>
+              <a 
+                href="/ai-testing-blog" 
+                className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer group"
+              >
+                <h4 className="font-semibold text-emerald-400 mb-2 group-hover:text-emerald-300">🤖 AI-Powered Testing</h4>
+                <p className="text-sm text-gray-300 group-hover:text-gray-200">Implementing intelligent test case generation, self-healing tests, and AI-driven quality insights</p>
+                <div className="mt-2 text-xs text-emerald-400 group-hover:text-emerald-300">Watch videos →</div>
+              </a>
+              <a 
+                href="/genai-blog" 
+                className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer group"
+              >
+                <h4 className="font-semibold text-purple-400 mb-2 group-hover:text-purple-300">🧠 GenAI Integration</h4>
+                <p className="text-sm text-gray-300 group-hover:text-gray-200">Leveraging LLMs and GenAI for automated test documentation, bug analysis, and QA process optimization</p>
+                <div className="mt-2 text-xs text-purple-400 group-hover:text-purple-300">Explore content →</div>
+              </a>
             </div>
           </div>
           
