@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react';
+import { ArrowDown, Github, Linkedin, Mail, Phone, MapPin, Sparkles } from 'lucide-react';
 
 const Hero = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -39,14 +39,67 @@ const Hero = () => {
         isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
       }`}>
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl md:text-7xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-emerald-400 bg-clip-text text-transparent">
             Suresh Parimi
           </h1>
+          
+          {/* Contact Information */}
+          <div className="flex flex-wrap justify-center items-center gap-4 mb-6 text-gray-300">
+            <a 
+              href="mailto:reachparimi@gmail.com"
+              className="flex items-center gap-2 hover:text-white transition-colors duration-200"
+            >
+              <Mail className="w-4 h-4" />
+              reachparimi@gmail.com
+            </a>
+            <a 
+              href="https://linkedin.com/in/suresh-parimi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 hover:text-white transition-colors duration-200"
+            >
+              <Linkedin className="w-4 h-4" />
+              LinkedIn
+            </a>
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4" />
+              Uithoorn, Netherlands
+            </div>
+          </div>
+
+          {/* Open to Work Badge */}
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-full mb-6">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+            <span className="text-emerald-400 font-semibold text-sm">Open to Work</span>
+          </div>
           
           <div className="h-16 mb-8">
             <p className="text-xl md:text-2xl text-gray-300 transition-all duration-500">
               {roles[currentRole]}
             </p>
+          </div>
+
+          {/* Current Focus - Attention Grabber */}
+          <div className="bg-gradient-to-r from-purple-500/20 to-blue-500/20 backdrop-blur-sm rounded-xl p-6 mb-8 border border-purple-500/30">
+            <div className="flex items-center justify-center gap-2 mb-4">
+              <Sparkles className="w-5 h-5 text-purple-400" />
+              <h3 className="text-xl font-bold text-white">Currently Pioneering</h3>
+              <Sparkles className="w-5 h-5 text-purple-400" />
+            </div>
+            <div className="grid md:grid-cols-3 gap-4 text-left">
+              <div className="bg-white/10 rounded-lg p-4">
+                <h4 className="font-semibold text-blue-400 mb-2">🎭 Playwright Mastery</h4>
+                <p className="text-sm text-gray-300">Building next-gen test automation frameworks with advanced Playwright patterns and AI-enhanced test generation</p>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4">
+                <h4 className="font-semibold text-emerald-400 mb-2">🤖 AI-Powered Testing</h4>
+                <p className="text-sm text-gray-300">Implementing intelligent test case generation, self-healing tests, and AI-driven quality insights</p>
+              </div>
+              <div className="bg-white/10 rounded-lg p-4">
+                <h4 className="font-semibold text-purple-400 mb-2">🧠 GenAI Integration</h4>
+                <p className="text-sm text-gray-300">Leveraging LLMs and GenAI for automated test documentation, bug analysis, and QA process optimization</p>
+              </div>
+            </div>
           </div>
           
           <p className="text-lg md:text-xl text-gray-300 mb-8 max-w-3xl mx-auto leading-relaxed">
