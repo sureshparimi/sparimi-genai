@@ -1,5 +1,7 @@
+
 import React from 'react';
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -87,13 +89,13 @@ const Navigation = () => {
                   <div className="absolute top-full left-0 mt-2 w-56 bg-slate-800 rounded-lg shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
                     <div className="py-2">
                       {item.subItems.map((subItem) => (
-                        <a
+                        <Link
                           key={subItem.name}
-                          href={subItem.href}
+                          to={subItem.href}
                           className="block px-4 py-2 text-sm text-gray-300 hover:text-white hover:bg-slate-700 transition-colors duration-200"
                         >
                           {subItem.name}
-                        </a>
+                        </Link>
                       ))}
                     </div>
                   </div>
@@ -133,14 +135,14 @@ const Navigation = () => {
                 {item.subItems && (
                   <div className="ml-4">
                     {item.subItems.map((subItem) => (
-                      <a
+                      <Link
                         key={subItem.name}
-                        href={subItem.href}
+                        to={subItem.href}
                         className="block py-1 text-sm text-gray-400 hover:text-white transition-colors duration-200"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {subItem.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 )}
