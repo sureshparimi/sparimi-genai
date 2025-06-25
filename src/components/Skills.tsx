@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Code, Database, Cloud, Wrench, Zap, Target, Trophy, Sparkles } from 'lucide-react';
 
@@ -118,7 +117,7 @@ const Skills = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
+    <section id="skills" className="py-20 bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 relative overflow-hidden">
       {/* Background Animation */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-r from-blue-400/20 to-purple-400/20 rounded-full blur-3xl animate-pulse"></div>

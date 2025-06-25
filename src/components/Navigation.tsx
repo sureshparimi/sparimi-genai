@@ -5,6 +5,16 @@ import { useState } from 'react';
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const handleNavClick = (href: string) => {
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+    setIsMenuOpen(false);
+  };
+
   const navigationItems = [
     { name: 'About', href: '#about' },
     { name: 'Experience', href: '#timeline' },
@@ -36,7 +46,13 @@ const Navigation = () => {
               <div key={item.name} className="relative group">
                 <a
                   href={item.href}
-                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                  onClick={(e) => {
+                    if (item.href.startsWith('#')) {
+                      e.preventDefault();
+                      handleNavClick(item.href);
+                    }
+                  }}
+                  className="text-gray-300 hover:text-white transition-colors duration-200 cursor-pointer"
                 >
                   {item.name}
                 </a>
@@ -75,8 +91,15 @@ const Navigation = () => {
               <div key={item.name}>
                 <a
                   href={item.href}
-                  className="block py-2 text-gray-300 hover:text-white transition-colors duration-200"
-                  onClick={() => setIsMenuOpen(false)}
+                  onClick={(e) => {
+                    if (item.href.startsWith('#')) {
+                      e.preventDefault();
+                      handleNavClick(item.href);
+                    } else {
+                      setIsMenuOpen(false);
+                    }
+                  }}
+                  className="block py-2 text-gray-300 hover:text-white transition-colors duration-200 cursor-pointer"
                 >
                   {item.name}
                 </a>
