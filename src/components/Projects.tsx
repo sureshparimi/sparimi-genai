@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { ExternalLink, Github, Star } from 'lucide-react';
 
@@ -38,7 +37,7 @@ const Projects = () => {
   ];
 
   return (
-    <section className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
+    <section id="projects" className="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
       <div className="container mx-auto px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">

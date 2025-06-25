@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useState } from 'react';
 
@@ -7,6 +6,34 @@ const Navigation = () => {
 
   const handleNavClick = (href: string) => {
     if (href.startsWith('#')) {
+      let targetSelector = href;
+      
+      // Map specific navigation items to their target sections
+      if (href === '#skills') {
+        // Look for the "Technical Expertise" heading
+        const expertiseElement = document.querySelector('[id="skills"]') || 
+                                document.querySelector('h2:contains("Technical Expertise")') ||
+                                document.querySelector('#skills');
+        if (expertiseElement) {
+          expertiseElement.scrollIntoView({ behavior: 'smooth' });
+          setIsMenuOpen(false);
+          return;
+        }
+      }
+      
+      if (href === '#projects') {
+        // Look for the "Featured Projects" heading
+        const projectsElement = document.querySelector('[id="projects"]') || 
+                               document.querySelector('h2:contains("Featured Projects")') ||
+                               document.querySelector('#projects');
+        if (projectsElement) {
+          projectsElement.scrollIntoView({ behavior: 'smooth' });
+          setIsMenuOpen(false);
+          return;
+        }
+      }
+      
+      // Default behavior for other sections
       const element = document.querySelector(href);
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
