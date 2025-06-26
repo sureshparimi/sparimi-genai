@@ -43,6 +43,15 @@ const Hero = () => {
             Suresh Parimi
           </h1>
           
+          {/* New tagline */}
+          <div className="mb-6 text-gray-300">
+            <p className="text-lg md:text-xl font-medium">
+              📊 You manage like a strategist,<br />
+              🧠 engineer like a systems thinker,<br />
+              ⚡ and dream like a founder.
+            </p>
+          </div>
+          
           {/* Contact Information */}
           <div className="flex flex-wrap justify-center items-center gap-4 mb-6 text-gray-300">
             <a 
