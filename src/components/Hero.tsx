@@ -10,10 +10,12 @@ const Hero = () => {
   }, []);
 
   const roles = [
-    "Test & Release Manager",
-    "Automation Architect", 
-    "QA Leadership Expert",
-    "Gen AI Enthusiast"
+    "Management",
+    "Strategy", 
+    "Systems Thinker",
+    "Consultant",
+    "Test and Business Process Automation",
+    "Gen AI implementer"
   ];
 
   const [currentRole, setCurrentRole] = useState(0);
@@ -43,12 +45,10 @@ const Hero = () => {
             Suresh Parimi
           </h1>
           
-          {/* New tagline */}
-          <div className="mb-6 text-gray-300">
-            <p className="text-lg md:text-xl font-medium">
-              📊 You manage like a strategist,<br />
-              🧠 engineer like a systems thinker,<br />
-              ⚡ and dream like a founder.
+          {/* Animated roles display */}
+          <div className="h-16 mb-8">
+            <p className="text-xl md:text-2xl text-gray-300 transition-all duration-500 font-medium">
+              {roles[currentRole]}
             </p>
           </div>
           
@@ -80,12 +80,6 @@ const Hero = () => {
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 border border-emerald-500/30 rounded-full mb-6">
             <div className="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
             <span className="text-emerald-400 font-semibold text-sm">Open to Work</span>
-          </div>
-          
-          <div className="h-16 mb-8">
-            <p className="text-xl md:text-2xl text-gray-300 transition-all duration-500">
-              {roles[currentRole]}
-            </p>
           </div>
 
           {/* Current Focus - Attention Grabber */}
