@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -45,10 +44,10 @@ class BusinessRuleValidator {
             [max: Double.MAX_VALUE, role: "executives"]
         ]
         
-        def requiredRole = approvalHierarchy.find { amount <= it.max }?.role
+        def requiredRole = approvalHierarchy.find { it -> amount <= it.max }?.role
         
         if (!userHasRole(user, requiredRole)) {
-            throw new Exception("Approval required from ${requiredRole} for amount ${amount}")
+            throw new Exception("Approval required from \${requiredRole} for amount \${amount}")
         }
         
         return true
@@ -265,9 +264,14 @@ import static groovyx.net.http.ContentType.*
 
 class ExternalSystemIntegrator {
     
+    def getCRMToken() {
+        // Retrieve CRM token from secure storage or configuration
+        return System.getProperty("crm.api.token") ?: "your-secure-token-here"
+    }
+    
     def integrateWithCRM(issue) {
         def crmClient = new RESTClient('https://api.crm-system.com/')
-        crmClient.headers['Authorization'] = "Bearer ${getCRMToken()}"
+        crmClient.headers['Authorization'] = "Bearer \${getCRMToken()}"
         
         try {
             // Create or update customer record
