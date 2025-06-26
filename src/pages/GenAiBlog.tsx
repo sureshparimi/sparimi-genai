@@ -4,9 +4,11 @@ import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import BlogCard from '@/components/BlogCard';
+import ArticleView from '@/components/ArticleView';
 
 const GenAiBlog = () => {
   const [visiblePosts, setVisiblePosts] = useState(6);
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
 
   const blogPosts = [
     {
@@ -16,7 +18,74 @@ const GenAiBlog = () => {
       date: "Dec 23, 2024",
       readTime: "16 min",
       tags: ["ChatGPT", "GPT-4", "API Integration", "Prompt Engineering"],
-      content: "...",
+      content: `
+        <h2>The Evolution of AI in Testing</h2>
+        <p>As a test architect with over 25 years in the industry, I've witnessed the transformation from manual testing to automated frameworks, and now to AI-powered testing ecosystems. The integration of ChatGPT and large language models represents the most significant paradigm shift since the advent of automated testing itself.</p>
+        
+        <h3>Understanding the ChatGPT API Ecosystem</h3>
+        <p>The ChatGPT API isn't just another tool—it's a cognitive multiplier for testing professionals. When properly integrated, it can analyze requirements documents, generate comprehensive test scenarios, and even predict potential edge cases that human testers might overlook.</p>
+        
+        <h4>Advanced API Integration Patterns</h4>
+        <p>The key to successful ChatGPT integration lies in understanding the nuances of prompt engineering and API orchestration:</p>
+        <ul>
+          <li><strong>Context-Aware Prompting:</strong> Design prompts that maintain context across multiple API calls, enabling complex testing workflows.</li>
+          <li><strong>Token Optimization:</strong> Implement efficient token management strategies to handle large requirement documents and complex test scenarios.</li>
+          <li><strong>Response Validation:</strong> Build robust validation layers that ensure AI-generated content meets quality standards.</li>
+        </ul>
+        
+        <h3>Building Conversational Test Interfaces</h3>
+        <p>The future of testing involves natural language interactions. Teams can describe testing needs in plain English, and AI systems translate these into executable test cases. This democratizes test creation, allowing business analysts and product managers to contribute directly to test coverage.</p>
+        
+        <h4>Prompt Engineering Mastery</h4>
+        <p>Effective prompt engineering for testing requires understanding both the domain and the AI model's capabilities. Here are advanced techniques I've developed:</p>
+        
+        <h5>Chain-of-Thought Prompting for Test Scenarios</h5>
+        <p>Instead of asking for test cases directly, guide the AI through logical reasoning: "Given a user login feature, first identify the primary happy path, then consider authentication edge cases, then security vulnerabilities, then accessibility concerns."</p>
+        
+        <h5>Few-Shot Learning for Domain-Specific Testing</h5>
+        <p>Provide examples of high-quality test cases in your domain, then ask the AI to generate similar ones for new features. This maintains consistency and quality across your test suite.</p>
+        
+        <h3>Advanced Implementation Strategies</h3>
+        <p>From an architectural perspective, ChatGPT integration should be treated as a microservice within your testing ecosystem. Consider these implementation patterns:</p>
+        
+        <h4>Async Processing Pipeline</h4>
+        <p>Large requirement documents need processing time. Implement asynchronous workflows that can handle document analysis, test generation, and quality validation in parallel streams.</p>
+        
+        <h4>Feedback Loop Integration</h4>
+        <p>Create systems where test execution results feed back into the AI system, enabling continuous learning and improvement of generated test cases.</p>
+        
+        <h3>Quality Assurance for AI-Generated Content</h3>
+        <p>Never trust AI-generated content blindly. Implement multi-layered validation:</p>
+        <ul>
+          <li>Syntax validation for generated code</li>
+          <li>Semantic analysis for test logic</li>
+          <li>Domain expert review processes</li>
+          <li>Automated quality metrics</li>
+        </ul>
+        
+        <h3>ROI and Business Impact</h3>
+        <p>In my experience, properly implemented ChatGPT integration can reduce test case creation time by 70% while improving coverage by 40%. The key is not replacing human expertise but amplifying it.</p>
+        
+        <h4>Measuring Success</h4>
+        <p>Track these metrics to validate your AI integration:</p>
+        <ul>
+          <li>Test case generation velocity</li>
+          <li>Edge case discovery rate</li>
+          <li>Test maintenance overhead reduction</li>
+          <li>Defect detection improvement</li>
+        </ul>
+        
+        <h3>Future Considerations</h3>
+        <p>The testing industry is moving toward AI-first approaches. Teams that master these integrations now will have significant competitive advantages. Consider investing in:</p>
+        <ul>
+          <li>Custom model fine-tuning for your domain</li>
+          <li>Advanced prompt libraries and templates</li>
+          <li>Integration with existing testing frameworks</li>
+          <li>Team training on AI-assisted testing methodologies</li>
+        </ul>
+        
+        <p>The transformation has begun. The question isn't whether AI will change testing—it's whether you'll lead that change or be left behind.</p>
+      `,
       punchline: "The difference between using ChatGPT and mastering it? Knowing how to make it think like your best tester."
     },
     {
@@ -105,6 +174,19 @@ const GenAiBlog = () => {
     setVisiblePosts(prev => Math.min(prev + 3, blogPosts.length));
   };
 
+  if (selectedArticle) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900">
+        <div className="container mx-auto">
+          <ArticleView
+            {...selectedArticle}
+            onBack={() => setSelectedArticle(null)}
+          />
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900">
       <div className="container mx-auto px-6 py-12">
@@ -131,7 +213,10 @@ const GenAiBlog = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {blogPosts.slice(0, visiblePosts).map((post, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <BlogCard {...post} />
+                <BlogCard 
+                  {...post} 
+                  onClick={() => setSelectedArticle(post)}
+                />
               </div>
             ))}
           </div>

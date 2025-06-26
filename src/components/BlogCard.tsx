@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock, User } from 'lucide-react';
@@ -12,11 +11,15 @@ interface BlogCardProps {
   tags: string[];
   content: string;
   punchline?: string;
+  onClick?: () => void;
 }
 
-const BlogCard = ({ title, description, author, date, readTime, tags, punchline }: BlogCardProps) => {
+const BlogCard = ({ title, description, author, date, readTime, tags, punchline, onClick }: BlogCardProps) => {
   return (
-    <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col">
+    <Card 
+      className="group hover:shadow-lg transition-all duration-300 cursor-pointer h-full flex flex-col"
+      onClick={onClick}
+    >
       <CardHeader className="flex-1">
         {punchline && (
           <div className="mb-3 p-3 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border-l-4 border-blue-500">
