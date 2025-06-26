@@ -55,7 +55,8 @@ const Navigation = () => {
       subItems: [
         { name: 'Playwright Mastery', href: '/playwright-blog' },
         { name: 'AI-Powered Testing', href: '/ai-testing-blog' },
-        { name: 'GenAI Integration', href: '/genai-blog' }
+        { name: 'GenAI Integration', href: '/genai-blog' },
+        { name: 'Jira Cloud Administration', href: '/jira-cloud-blog' }
       ]
     },
     { name: 'Contact', href: '#contact' }

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { ArrowDown, Github, Linkedin, Mail, Phone, MapPin, Sparkles } from 'lucide-react';
 
@@ -25,7 +26,7 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section className="min-h-screen flex items-center justify-center relative overflow-hidden pt-20">
       <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-slate-900 to-indigo-900"></div>
       <div className="absolute inset-0 opacity-20">
         <div className="w-full h-full" style={{
@@ -85,7 +86,7 @@ const Hero = () => {
               <h3 className="text-xl font-bold text-white">Currently Pioneering</h3>
               <Sparkles className="w-5 h-5 text-purple-400" />
             </div>
-            <div className="grid md:grid-cols-3 gap-4 text-left">
+            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 text-left">
               <a 
                 href="/playwright-blog" 
                 className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer group"
@@ -109,6 +110,14 @@ const Hero = () => {
                 <h4 className="font-semibold text-purple-400 mb-2 group-hover:text-purple-300">🧠 GenAI Integration</h4>
                 <p className="text-sm text-gray-300 group-hover:text-gray-200">Leveraging LLMs and GenAI for automated test documentation, bug analysis, and QA process optimization</p>
                 <div className="mt-2 text-xs text-purple-400 group-hover:text-purple-300">Explore content →</div>
+              </a>
+              <a 
+                href="/jira-cloud-blog" 
+                className="bg-white/10 rounded-lg p-4 hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer group"
+              >
+                <h4 className="font-semibold text-orange-400 mb-2 group-hover:text-orange-300">⚙️ Jira Administration</h4>
+                <p className="text-sm text-gray-300 group-hover:text-gray-200">Advanced Jira Cloud administration with ScriptRunner automation and AI-powered analytics</p>
+                <div className="mt-2 text-xs text-orange-400 group-hover:text-orange-300">Master techniques →</div>
               </a>
             </div>
           </div>
