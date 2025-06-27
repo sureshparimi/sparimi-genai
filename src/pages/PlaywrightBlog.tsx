@@ -1,12 +1,13 @@
-
 import React, { useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import BlogCard from '@/components/BlogCard';
+import ArticleView from '@/components/ArticleView';
 
 const PlaywrightBlog = () => {
   const [visiblePosts, setVisiblePosts] = useState(6);
+  const [selectedArticle, setSelectedArticle] = useState<any>(null);
 
   const blogPosts = [
     {
@@ -16,7 +17,78 @@ const PlaywrightBlog = () => {
       date: "Dec 20, 2024",
       readTime: "15 min",
       tags: ["Playwright", "Testing", "Architecture", "Enterprise"],
-      content: "...",
+      content: `
+        <h2>Introduction to Advanced Playwright Patterns</h2>
+        <p>Modern web applications demand sophisticated testing strategies that go beyond basic automation. This article explores advanced Playwright patterns that enterprise teams use to build maintainable, scalable test suites.</p>
+        
+        <h3>Page Component Model Implementation</h3>
+        <p>The Page Component Model extends traditional Page Object Model by treating page elements as composable components:</p>
+        
+        <pre><code class="language-typescript">
+// components/LoginForm.ts
+export class LoginForm {
+  constructor(private page: Page) {}
+  
+  async fillCredentials(username: string, password: string) {
+    await this.page.fill('[data-testid="username"]', username);
+    await this.page.fill('[data-testid="password"]', password);
+  }
+  
+  async submit() {
+    await this.page.click('[data-testid="login-button"]');
+    await this.page.waitForURL('**/dashboard');
+  }
+}
+        </code></pre>
+        
+        <h3>Dynamic Fixture Management</h3>
+        <p>Advanced fixture patterns allow for dynamic test data creation and cleanup:</p>
+        
+        <pre><code class="language-typescript">
+// fixtures/userFixture.ts
+import { test as base } from '@playwright/test';
+
+type UserFixture = {
+  authenticatedUser: {
+    page: Page;
+    user: UserData;
+  };
+};
+
+export const test = base.extend<UserFixture>({
+  authenticatedUser: async ({ page }, use) => {
+    const user = await createTestUser();
+    await loginAs(page, user);
+    await use({ page, user });
+    await cleanupUser(user.id);
+  },
+});
+        </code></pre>
+        
+        <h3>Smart Retry Mechanisms</h3>
+        <p>Implement intelligent retry logic that distinguishes between real failures and environmental issues:</p>
+        
+        <pre><code class="language-typescript">
+// utils/smartRetry.ts
+export async function withSmartRetry<T>(
+  operation: () => Promise<T>,
+  options: RetryOptions = {}
+): Promise<T> {
+  const { maxRetries = 3, backoff = 1000 } = options;
+  
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await operation();
+    } catch (error) {
+      if (attempt === maxRetries || !isRetryableError(error)) {
+        throw error;
+      }
+      await new Promise(resolve => setTimeout(resolve, backoff * attempt));
+    }
+  }
+}
+        </code></pre>
+      `,
       punchline: "The difference between a test that breaks every deployment and one that catches real bugs? Architecture that thinks ahead."
     },
     {
@@ -26,7 +98,51 @@ const PlaywrightBlog = () => {
       date: "Dec 18, 2024",
       readTime: "12 min",
       tags: ["POM", "Architecture", "Components", "Maintainability"],
-      content: "...",
+      content: `
+        <h2>Evolution of Page Object Model</h2>
+        <p>Traditional Page Object Model served us well, but modern applications require more sophisticated patterns that mirror component-based architectures.</p>
+        
+        <pre><code class="language-typescript">
+// Traditional POM approach
+class LoginPage {
+  constructor(private page: Page) {}
+  
+  async login(username: string, password: string) {
+    await this.page.fill('#username', username);
+    await this.page.fill('#password', password);
+    await this.page.click('#login-btn');
+  }
+}
+        </code></pre>
+        
+        <h3>Component-Based Page Objects</h3>
+        <p>Modern approach treats UI elements as composable components:</p>
+        
+        <pre><code class="language-typescript">
+// Component-based approach
+class FormComponent {
+  constructor(private page: Page, private selector: string) {}
+  
+  async fillField(fieldName: string, value: string) {
+    await this.page.fill(\`\${this.selector} [data-field="\${fieldName}"]\`, value);
+  }
+}
+
+class LoginPage {
+  private loginForm: FormComponent;
+  
+  constructor(private page: Page) {
+    this.loginForm = new FormComponent(page, '[data-testid="login-form"]');
+  }
+  
+  async login(credentials: LoginCredentials) {
+    await this.loginForm.fillField('username', credentials.username);
+    await this.loginForm.fillField('password', credentials.password);
+    await this.submitForm();
+  }
+}
+        </code></pre>
+      `,
       punchline: "Your Page Objects should evolve with your app, not fight against it – think components, not pages."
     },
     {
@@ -105,6 +221,31 @@ const PlaywrightBlog = () => {
     setVisiblePosts(prev => Math.min(prev + 3, blogPosts.length));
   };
 
+  const handleArticleClick = (post: any) => {
+    setSelectedArticle(post);
+  };
+
+  const handleBackToList = () => {
+    setSelectedArticle(null);
+  };
+
+  if (selectedArticle) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <ArticleView
+          title={selectedArticle.title}
+          author={selectedArticle.author}
+          date={selectedArticle.date}
+          readTime={selectedArticle.readTime}
+          tags={selectedArticle.tags}
+          content={selectedArticle.content}
+          punchline={selectedArticle.punchline}
+          onBack={handleBackToList}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
       <div className="container mx-auto px-6 py-12">
@@ -131,7 +272,7 @@ const PlaywrightBlog = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             {blogPosts.slice(0, visiblePosts).map((post, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
-                <BlogCard {...post} />
+                <BlogCard {...post} onClick={() => handleArticleClick(post)} />
               </div>
             ))}
           </div>
