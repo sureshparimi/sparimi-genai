@@ -1,6 +1,6 @@
 
-import React from 'react';
-import { ArrowLeft, MessageCircle } from 'lucide-react';
+import React, { useEffect } from 'react';
+import { ArrowLeft, MessageCircle, Copy, Check } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface ArticleViewProps {
@@ -15,12 +15,124 @@ interface ArticleViewProps {
 }
 
 const ArticleView = ({ title, author, date, readTime, tags, content, punchline, onBack }: ArticleViewProps) => {
+  const [copiedStates, setCopiedStates] = React.useState<{ [key: number]: boolean }>({});
+
   const handleWhatsAppCTA = () => {
     const phoneNumber = "31616270233";
     const message = `Hi Suresh, I'm interested in discussing "${title}". Could you help me understand how this can be implemented in my organization? I'd like to schedule a consultation.`;
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
   };
+
+  const copyToClipboard = async (text: string, index: number) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopiedStates(prev => ({ ...prev, [index]: true }));
+      setTimeout(() => {
+        setCopiedStates(prev => ({ ...prev, [index]: false }));
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy text: ', err);
+    }
+  };
+
+  const enhanceCodeBlocks = (htmlContent: string) => {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(htmlContent, 'text/html');
+    const codeBlocks = doc.querySelectorAll('pre code, pre');
+    
+    codeBlocks.forEach((block, index) => {
+      const codeElement = block.tagName === 'CODE' ? block : block.querySelector('code') || block;
+      const codeText = codeElement.textContent || '';
+      const language = codeElement.className.match(/language-(\w+)/)?.[1] || 'text';
+      
+      // Create wrapper div
+      const wrapper = doc.createElement('div');
+      wrapper.className = 'code-block-wrapper bg-gray-900 rounded-lg overflow-hidden border border-gray-700 my-4';
+      
+      // Create header
+      const header = doc.createElement('div');
+      header.className = 'flex items-center justify-between px-4 py-2 bg-gray-800 border-b border-gray-700';
+      header.innerHTML = `
+        <span class="text-gray-300 text-sm font-medium">${language}</span>
+        <button 
+          class="copy-btn flex items-center gap-2 px-3 py-1 text-gray-300 hover:text-white bg-gray-700 hover:bg-gray-600 rounded text-sm transition-colors" 
+          data-code="${encodeURIComponent(codeText)}"
+          data-index="${index}"
+        >
+          <svg class="copy-icon w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          </svg>
+          <svg class="check-icon w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <polyline points="20,6 9,17 4,12"></polyline>
+          </svg>
+          <span class="copy-text">Copy</span>
+        </button>
+      `;
+      
+      // Create code container
+      const codeContainer = doc.createElement('div');
+      codeContainer.className = 'relative';
+      
+      const pre = doc.createElement('pre');
+      pre.className = 'bg-gray-900 text-gray-100 p-4 overflow-x-auto text-sm leading-relaxed';
+      
+      const code = doc.createElement('code');
+      code.className = `language-${language}`;
+      code.textContent = codeText;
+      
+      pre.appendChild(code);
+      codeContainer.appendChild(pre);
+      
+      wrapper.appendChild(header);
+      wrapper.appendChild(codeContainer);
+      
+      // Replace original block
+      const parent = block.closest('pre') || block;
+      parent.parentNode?.replaceChild(wrapper, parent);
+    });
+    
+    return doc.body.innerHTML;
+  };
+
+  useEffect(() => {
+    const handleCopyClick = (event: Event) => {
+      const button = event.currentTarget as HTMLButtonElement;
+      const codeText = decodeURIComponent(button.dataset.code || '');
+      const index = parseInt(button.dataset.index || '0');
+      
+      copyToClipboard(codeText, index);
+      
+      // Visual feedback
+      const copyIcon = button.querySelector('.copy-icon');
+      const checkIcon = button.querySelector('.check-icon');
+      const copyText = button.querySelector('.copy-text');
+      
+      if (copyIcon && checkIcon && copyText) {
+        copyIcon.classList.add('hidden');
+        checkIcon.classList.remove('hidden');
+        copyText.textContent = 'Copied!';
+        
+        setTimeout(() => {
+          copyIcon.classList.remove('hidden');
+          checkIcon.classList.add('hidden');
+          copyText.textContent = 'Copy';
+        }, 2000);
+      }
+    };
+
+    const copyButtons = document.querySelectorAll('.copy-btn');
+    copyButtons.forEach(button => {
+      button.addEventListener('click', handleCopyClick);
+    });
+
+    return () => {
+      copyButtons.forEach(button => {
+        button.removeEventListener('click', handleCopyClick);
+      });
+    };
+  }, [content]);
 
   return (
     <div className="max-w-4xl mx-auto px-6 py-8">
@@ -63,7 +175,7 @@ const ArticleView = ({ title, author, date, readTime, tags, content, punchline, 
         
         <div 
           className="text-gray-200 leading-relaxed space-y-6"
-          dangerouslySetInnerHTML={{ __html: content }}
+          dangerouslySetInnerHTML={{ __html: enhanceCodeBlocks(content) }}
         />
         
         {/* WhatsApp CTA Section */}
